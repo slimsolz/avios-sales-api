@@ -1,7 +1,7 @@
 import express from "express";
 import logger from "morgan";
 import bodyParser from "body-parser";
-import router from "./routes/routerIndex.js";
+import index from "./routes";
 
 const app = express();
 
@@ -13,7 +13,22 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use("/api/v1", router);
+app.use("/api/v1", index);
+
+app.use((err, req, res, next) => {
+  console.log(err);
+  // if (err.parent.errno === "ECONNREFUSED") {
+  // return res.status(500).json({
+  // success: false,
+  // message: err.message,
+  // });
+  // }
+
+  return res.status(400).json({
+    success: false,
+    message: err,
+  });
+});
 
 app.listen(port, () => {
   console.log(`App started on port ${port}`);

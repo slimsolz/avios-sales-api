@@ -1,10 +1,14 @@
 import express from "express";
+import { errorResponse, successResponse } from "../helpers/responseUtil";
+import userRouter from "./usersRoute";
 
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  res.json("welcome");
+  successResponse(res, 200, null);
 });
+
+router.use("/auth", userRouter);
 
 router.all("*", (req, res) => {
   errorResponse(res, 404, "404 Page not found");
