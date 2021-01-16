@@ -16,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/api/v1", index);
 
 app.use((err, req, res, next) => {
+  console.log(err)
   return res.status(400).json({
     success: false,
     message: err,

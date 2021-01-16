@@ -1,5 +1,5 @@
-import jwt from 'jsonwebtoken';
-import { errorResponse } from '../helpers/responseUtil';
+import jwt from "jsonwebtoken";
+import { errorResponse } from "../helpers/responseUtil";
 
 /**
  * @description - check if a customer is logged in
@@ -11,20 +11,36 @@ import { errorResponse } from '../helpers/responseUtil';
  * @returns
  */
 export const isLoggedIn = (req, res, next) => {
-  const token = req.get('Authorization') && req.get('Authorization').slice(7);
+  const token = req.get("Authorization") && req.get("Authorization").slice(7);
   if (!token) {
-    return errorResponse(res, 401, 'Unauthorized Access');
+    return errorResponse(res, 401, "Unauthorized Access");
   }
 
   jwt.verify(token.slice(7), process.env.SECRET, (err, decoded) => {
     if (err) {
-      return errorResponse(res, 401, `${err.message}..Please log in to continue`);
+      return errorResponse(
+        res,
+        401,
+        `${err.message}..Please log in to continue`
+      );
     }
 
     req.userId = decoded.id;
     req.userRole = decoded.role;
     req.userEmail = decoded.email;
-    req.userName = `${decoded.firstName} ${decoded.lastName}`;
+    // req.userName = `${decoded.firstName} ${decoded.lastName}`;
     return next();
   });
+};
+
+export const validateSeller = (req, res, next) => {
+  if (req.userRole !== "seller") {
+    return errorResponse(
+      res,
+      403,
+      "Forbidden, you do not have permission to perform this action"
+    );
+  }
+
+  return next();
 };
