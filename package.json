@@ -5,9 +5,13 @@
   "repository": "https://github.com/slimsolz/avios-sales-api.git",
   "author": "solomon <odumahs@gmail.com>",
   "license": "MIT",
-  "type":"module",
   "scripts": {
-    "start-dev": "nodemon server/index.js"
+    "start-dev": "nodemon server/index.js --exec babel-node",
+    "db-init": "sequelize init",
+    "model-create": "sequelize model:create --name User --attributes email:string,firstName:string,lastName:string,password:string",
+    "migrate-undo": "sequelize db:migrate:undo:all",
+    "migrate": "yarn run migrate-undo && sequelize db:migrate",
+    "test": ""
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
@@ -29,6 +33,8 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
