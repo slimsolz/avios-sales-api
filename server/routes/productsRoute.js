@@ -6,6 +6,7 @@ import {
   validateParam,
   validateSellerParam,
 } from "../middlewares/paramsValidation";
+import { createProductValidation } from "../middlewares/productValidation";
 
 const productsRouter = express.Router();
 
@@ -13,6 +14,7 @@ productsRouter.post(
   "/products",
   isLoggedIn,
   validateSeller,
+  createProductValidation,
   upload.array("imgUrl"),
   ProductController.addProduct
 );
@@ -35,6 +37,7 @@ productsRouter.patch(
   isLoggedIn,
   validateSeller,
   validateParam,
+  createProductValidation,
   upload.array("imgUrl"),
   ProductController.editProduct
 );
