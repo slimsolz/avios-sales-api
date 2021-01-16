@@ -36,3 +36,29 @@ export const seller = {
   password: "Pa$$word12",
   role: "seller",
 };
+
+export const productDetails = {
+  name: faker.name.lastName(),
+  quantity: faker.random.number(99),
+  size: faker.random.arrayElement(["s", "L", "XL"]),
+  color: faker.random.arrayElement(["red", "green", "blue", "white", "grey"]),
+  price: faker.random.number(10000),
+  description: faker.lorem.paragraph(),
+};
+
+export const updatedProductDetails = {
+  name: faker.name.firstName(),
+  quantity: faker.random.number(99),
+  size: faker.random.arrayElement(["s", "L", "XL"]),
+  color: faker.random.arrayElement(["red", "green", "blue", "white", "grey"]),
+  price: faker.random.number(10000),
+  description: faker.lorem.paragraph(),
+};
+
+export const productWithMissingField = {
+  quantity: faker.random.number(99),
+  size: faker.random.arrayElement(["s", "L", "XL"]),
+  color: faker.random.arrayElement(["red", "green", "blue", "white", "grey"]),
+  price: faker.random.number(10000),
+  description: faker.lorem.paragraph(),
+};

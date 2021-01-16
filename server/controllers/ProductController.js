@@ -83,7 +83,7 @@ class ProductController {
   static async getProduct(req, res, next) {
     try {
       const { id } = req.params;
-      const products = await Product.findOne({
+      const product = await Product.findOne({
         where: { id },
         attributes: [
           "id",
@@ -95,7 +95,8 @@ class ProductController {
           ["updatedAt", "date_edited"],
         ],
       });
-      successResponse(res, 200, products);
+      if (!product) return errorResponse(res, 404, "product not found");
+      successResponse(res, 200, product);
     } catch (err) {
       next(err);
     }
@@ -108,9 +109,11 @@ class ProductController {
       const product = await Product.findOne({ where: { id, user_id } });
       if (!product) return errorResponse(res, 404, "product not found");
 
-      product.product_varieties.image.forEach((image) => {
-        deleteFile(image.id);
-      });
+      if (product.product_varieties.image) {
+        product.product_varieties.image.forEach((image) => {
+          deleteFile(image.id);
+        });
+      }
 
       const productDetails = await Product.destroy({ where: { id, user_id } });
       return successResponse(res, 200, productDetails);
@@ -128,7 +131,7 @@ class ProductController {
       let images;
       const { name, description, size, color, quantity, price } = req.body;
 
-      if (req.files.length > 0) {
+      if (req.files && req.files.length > 0) {
         product.product_varieties.image.forEach((image) => {
           deleteFile(image.id);
         });

@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       product_name: { type: DataTypes.STRING, allowNull: false },
       product_description: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
       },
       product_varieties: { type: DataTypes.JSON, allowNull: false },
