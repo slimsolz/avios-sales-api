@@ -11,7 +11,9 @@
     "model-create": "sequelize model:create --name User --attributes email:string,firstName:string,lastName:string,password:string",
     "migrate-undo": "sequelize db:migrate:undo:all",
     "migrate": "yarn run migrate-undo && sequelize db:migrate",
-    "test": ""
+    "pretest": "sequelize db:migrate:undo:all --env test && sequelize db:migrate --env test",
+    "test": "export NODE_ENV=test || set NODE_ENV=test && nyc --reporter=html --reporter=text mocha server/tests/ --exit --require babel-core/register",
+    "test-watch": "nodemon --exec \"yarn test\""
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
