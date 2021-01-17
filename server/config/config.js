@@ -15,5 +15,11 @@ module.exports = {
     host: process.env.DB_HOST,
     dialect: process.env.DB_DIALECT,
   },
-  production: { database: process.env.DB_NAME_PRODUCTION },
+  production: {
+    username: process.env.DB_NAME_PRODUCTION,
+    password: process.env.DB_PASSWORD_PRODUCTION,
+    database: process.env.DB_PRODUCTION,
+    host: process.env.DB_SERVER,
+    dialect: process.env.DB_DIALECT,
+  },
 };
