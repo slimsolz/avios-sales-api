@@ -9,9 +9,11 @@
     "start-dev": "nodemon server/index.js --exec babel-node",
     "db-init": "sequelize init",
     "model-create": "sequelize model:create --name Product --attributes product_name:string,product_description:string,product_varieties:json,date_uploaded:date,date_edited:date",
+    "seed-add": "sequelize seed:create --name products",
+    "seed": "sequelize db:seed:all",
     "migrate-undo": "sequelize db:migrate:undo:all",
-    "migrate": "yarn run migrate-undo && sequelize db:migrate",
-    "pretest": "sequelize db:migrate:undo:all --env test && sequelize db:migrate --env test",
+    "migrate": "yarn run migrate-undo && sequelize db:migrate && yarn run seed",
+    "pretest": "sequelize db:migrate:undo:all --env test && sequelize db:migrate --env test && sequelize db:seed:all --env test",
     "test": "export NODE_ENV=test || set NODE_ENV=test && nyc --reporter=html --reporter=text mocha server/tests/ --exit --require babel-core/register",
     "test-watch": "nodemon --exec \"yarn test\""
   },
