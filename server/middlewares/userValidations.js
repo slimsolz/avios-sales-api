@@ -10,7 +10,7 @@ export const registerUserValidator = (req, res, next) => {
     password: Joi.string()
       .required()
       .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+        /^(?=.*[@$!#_%.*?&-])(?=.*[a-z])(?=.*[A-Z])(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%_*#.?&-]{8,}$/
       )
       .min(8),
   });
@@ -38,12 +38,7 @@ export const loginUserValidator = (req, res, next) => {
   const schema = Joi.object().keys({
     email: Joi.string().required().email({ minDomainAtoms: 2 }),
     role: Joi.string().required().min(3),
-    password: Joi.string()
-      .required()
-      .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-      )
-      .min(8),
+    password: Joi.string().required().min(8),
   });
   const { email, password, role } = req.body;
   const { error } = Joi.validate({ email, role, password }, schema);

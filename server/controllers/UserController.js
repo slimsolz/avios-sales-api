@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import { hashPassword, verifyPassword } from "../helpers/encrypt";
 import {
-  successResponse,
   successResponseWithToken,
   errorResponse,
 } from "../helpers/responseUtil";
@@ -24,13 +23,26 @@ class UserController {
         password: hashedPassword,
       });
 
+      const token = jwt.sign(
+        { id: newUser.id, email: newUser.email, role: newUser.role },
+        process.env.SECRET,
+        { expiresIn: process.env.TOKEN_EXPIRATION }
+      );
+
       const returnData = {
         firstName: newUser.firstName,
         lastName: newUser.lastName,
         email: newUser.email,
         role: newUser.role,
       };
-      successResponse(res, 201, returnData);
+
+      return successResponseWithToken(
+        res,
+        201,
+        "registration successful",
+        returnData,
+        token
+      );
     } catch (err) {
       next(err);
     }
@@ -40,7 +52,7 @@ class UserController {
     try {
       const { email, role, password } = req.body;
       const user = await User.findOne({
-        where: { email: email.toLowerCase() },
+        where: { email: email.toLowerCase(), role: role },
       });
 
       if (!user) return errorResponse(res, 400, "email or password is invalid");

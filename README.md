@@ -6,6 +6,12 @@ Avios provides a platform where buyers meet sellers. Avios wants to allow seller
 
 - Register: `POST api/v1/auth/register`
 - Login: `POST api/v1/auth/login`
+- Add Product: `POST api/v1/products`
+- Get all Products: `POST api/v1/products`
+- Get single Product: `GET api/v1/product/:id`
+- Get seller Product: `GET api/v1/product/user/:id`
+- Delete single Product: `DELETE api/v1/product/:id`
+- Update single Product: `PATCH api/v1/product/:id`
 
 ## Technologies
 
